@@ -14,7 +14,7 @@ const gui = new GUI({
   closeFolders: false,
 });
 
-// gui.hide();
+gui.hide();
 // gui parameters
 const parameters = {
   floorMaterialColor: "#89898b",
