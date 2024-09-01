@@ -1,0 +1,26 @@
+{
+  "name": "advanced_threejs_physics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cannon": "^0.6.2",
+    "cannon-es": "^0.20.0",
+    "gsap": "3.5.1",
+    "lil-gui": "^0.19.2",
+    "three": "^0.167.1"
+  },
+  "devDependencies": {
+    "@types/cannon": "^0.1.13",
+    "@types/three": "^0.167.2",
+    "vite": "^5.4.2"
+  }
+}
