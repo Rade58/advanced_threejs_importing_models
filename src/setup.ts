@@ -3,7 +3,6 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 import GUI from "lil-gui";
 import gsap from "gsap";
 import CANNON from "cannon";
-// import * as CANNON from "cannon-es";
 
 /**
  * @description Debug UI - lil-ui
