@@ -77,3 +77,15 @@ if you want to be able to alter files you go with a gltf-default, loading multip
 if having one file is better for you you better go with gltf-binary
 
 You must decide if you want to use draco compression or not
+
+# Multiple ways of adding the mesh to the scene
+
+When we load our model with a loader we can
+
+- Add a whole scene of the model in our scene
+- Add a children of the mentioned scene
+- filter the children and add what you want
+- add only mesh and end up with a mesh that has wrong scale, position and rotation
+
+Best way: **Open a file in a #D software , like blender and clean it (choose only what you want) and export it again**
+
