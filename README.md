@@ -100,4 +100,4 @@ good way to test models
 only works with models composed of one file
 
 
-You can drag and drop models, for example binary file and you can test things of that model
+You can drag and drop models, for example binary file .glb and you can test things of that model
