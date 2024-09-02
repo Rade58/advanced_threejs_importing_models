@@ -47,42 +47,15 @@ if (canvas) {
 
   // types are problem in cannon-es, different than in cannon
   const playHitSound = (collision: CANNON.ICollisionEvent) => {
-    // without this you would have very strange playing of a sound
-    // every new collide wouldn't play sound because sound is already playing,
-    // so we set this
-    // hitSound.currentTime = 0; // this is only one posible fix (the most simple one)
-    //
-
-    // we have too many impacts, which makes too mny sound, making very
-    // unnatural sound
-    // even if cubes are slightly touching, we hear the sound, which is anoying
-
-    // we will only play ound if impact hase enough intensity
-
-    // console.log(collision.contact);
-
-    // we will use this vlue to determine intesity of the impact
-    // console.log(collision.contact.getImpactVelocityAlongNormal());
     const impactStrength = collision.contact.getImpactVelocityAlongNormal();
 
     if (impactStrength > 1.5) {
-      // next problem is that our sound isn't enough random
-      // it always has same volume
       hitSound.volume = Math.random();
 
       hitSound.currentTime = 0;
       hitSound.play();
-
-      // if you want to go even further:
-      // - play slightly different sound randomnly
-      // - add very short delay where the sound cannot play again after being played once
-      // -in addition to random volume, scale it accordinly to the impact strength
     }
-
-    // next we can define event listener for the sphere bodies
   };
-
-  // we will use function above as a listener (on collide for the box body)
 
   // ---------------------------------------------
   // ---------------------------------------------
@@ -153,36 +126,6 @@ if (canvas) {
   world.defaultContactMaterial = defaultContactMaterial;
 
   // ------------------------------------------
-
-  // Sphere
-  // we don't need this for our current example
-  // const sphereShape = new CANNON.Sphere(0.5);
-  /* const sphereBody = new CANNON.Body({
-    mass: 1,
-    position: new CANNON.Vec3(0, 4, 0),
-    shape: sphereShape,
-    // we set THREE.Material instance
-    // material: plasticMaterial,
-    material: defaultMaterial,
-  });
- */
-  // I applied it in order to body stop moving eventually, after we apply the force
-  // sphereBody.linearDamping = 0.1;
-  // sphereBody.angularDamping = 0.1;
-
-  // APPLYING LOCAL FORCE ON THE sphereBody
-  // FORCE WILL HAVE 150N on thee x axis, and it will be applied in the center of the body
-  // we can use negative values to change direction of the force
-  //
-  // sphereBody.applyLocalForce(
-  //   new CANNON.Vec3(-150, 0, 0),
-  //   new CANNON.Vec3(0, 0, 0) // in center
-  // );
-
-  // like you saw I commented out everything above
-  // world.addBody(sphereBody);
-
-  // I also commented out sphere mesh (it's not added to the scene anymore)
 
   // ---------------------------------------
 
@@ -261,15 +204,6 @@ if (canvas) {
 
   scene.add(floorMesh);
 
-  /* const sphereMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    new THREE.MeshMatcapMaterial({
-      matcap: sphereMatcap,
-    })
-  ) */ // sphereMesh.position.y = 0.5;
-
-  // scene.add(sphereMesh);
-
   // -----------------------------------------------------------------------
   // ---------- PARTICLES --------------------------------------------------
   // -----------------------------------------------------------------------
@@ -311,16 +245,9 @@ if (canvas) {
 
   gui.addColor(parameters, "floorMaterialColor").onChange(() => {
     floorMaterial.color.set(parameters.floorMaterialColor);
-    // particlesMaterial.color.set(parameters.materialColor);
   });
 
-  gui.add(parameters, "createSphere").onChange(() => {
-    /* createSphere(0.5, {
-      x: 0,
-      y: 3,
-      z: 0,
-    }); */
-
+  /* gui.add(parameters, "createSphere").onChange(() => {
     createSphere(Math.random() * 0.5, {
       x: (Math.random() - 0.5) * 3,
       y: 3,
@@ -343,8 +270,6 @@ if (canvas) {
     );
   });
 
-  // ----------------------------------------------------
-
   gui.add(parameters, "reset").onChange(() => {
     for (const element of objectsToUpdate) {
       element.body.removeEventListener("collide", playHitSound);
@@ -354,9 +279,7 @@ if (canvas) {
 
       scene.remove(element.mesh);
     }
-  });
-
-  //--------------------------------------------------
+  }); */
 
   /**
    * just to show that we can tweak normal html with lil gui
@@ -385,7 +308,7 @@ if (canvas) {
 
   // we don't need this, it is from previous group of lessons to show how we can move group
   // instead of camera
-  // so I kept this
+  // I kept this for no reason
   const cameraGroup = new THREE.Group();
   scene.add(cameraGroup);
 
@@ -468,64 +391,6 @@ if (canvas) {
     }
   });
 
-  // ------ ANIMATING ON SCROLL ------
-  // we don't need this
-  // ---------------------------------
-  // ---------------------------------
-  // ---------------------------------
-  // ---------------------------------
-  // ---------------------------------
-  // ---------------------------------
-  // ---------------------------------
-  // we will use this value to update camera in tick function
-  /**
-   * Scroll
-   */
-  // let scrollY = window.screenY;
-
-  // let currentSection = 0; //
-
-  // console.log({ scrollY });
-
-  /*  window.addEventListener("scroll", () => {
-    scrollY = window.scrollY;
-
-    // console.log({ scrollY });
-    // we will add this
-    // to calculate what is our current section
-    const newSection = Math.round(scrollY / sizes.height);
-
-    // changing sections
-    if (newSection !== currentSection) {
-      currentSection = newSection;
-      // console.log("changed", currentSection);
-
-      gsap.to(sectionMeshes[currentSection].rotation, {
-        duration: 1.5,
-        ease: "power2.inOut",
-        x: "+=6",
-        y: "+=3",
-        z: "+=1.5",
-      });
-    }
-
-    // console.log(newSection);
-  }); */
-
-  // --------------------------------------------------
-  // ---------- FOR PARALLAX --------------------------
-  /**
-   * Cursor
-   */
-  /* const cursor = { x: 0, y: 0 };
-  cursor.x = 0;
-  cursor.y = 0;
-
-  window.addEventListener("mousemove", (e) => {
-    cursor.x = e.clientX / sizes.width - 0.5;
-    cursor.y = e.clientY / sizes.height - 0.5;
-  }); */
-
   // --------------------------------------------------
   // --------------------------------------------------
   // --------------------------------------------------
@@ -537,12 +402,8 @@ if (canvas) {
     radius: number,
     position: { x: number; y: number; z: number }
   ) {
-    // mesh ------------------------------------------------
-    // we are now using ame geometry and material for every instance that would
-    // create this function createSphere
     const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
-    // but we will scale mesh to use radius parameter from this function
     mesh.scale.set(radius, radius, radius);
 
     mesh.castShadow = true;
@@ -555,7 +416,6 @@ if (canvas) {
 
     const body = new CANNON.Body({
       mass: 1,
-      // position: new CANNON.Vec3(position.x, position.y, position.z),
       position: new CANNON.Vec3(0, 3, 0),
       shape,
       material: defaultMaterial,
@@ -571,8 +431,6 @@ if (canvas) {
 
     world.addBody(body);
 
-    // save in object to update
-    // and we use this object inside tick (looping through and updating every object)
     objectsToUpdate.push({
       mesh,
       body,
@@ -595,9 +453,7 @@ if (canvas) {
 
     scene.add(mesh);
 
-    // when defining cube shape in cannon, dimesions are different
     const shape = new CANNON.Box(
-      // dimesions used are halfExtent (so you need to devide by two)
       new CANNON.Vec3(size.width / 2, size.height / 2, size.dept / 2)
     );
 
@@ -611,15 +467,8 @@ if (canvas) {
     //
     body.addEventListener("collide", playHitSound);
 
-    // body.position.x = position.x;
-    // body.position.y = position.y;
-    // body.position.x = position.z;
-
     // @ts-expect-error vectors
     body.position.copy(position);
-
-    // body.linearDamping = 0.1;
-    // body.angularDamping = 0.1;
 
     world.addBody(body);
 
@@ -656,13 +505,6 @@ if (canvas) {
     oldElapsedTime = elapsedTime;
     //
 
-    // MIMICKING THE WIND FORCE
-    // since we are doing this on every frame this will be consistent force
-    // always applied to the body
-
-    // sphereBody.applyForce(new CANNON.Vec3(0.5, 0, 0), sphereBody.position);
-    // I comment it out since I don't need wind, I want to see some other effects
-
     // ------ UPDATE PHYSICS WORLD ------
     // ---------------------------------------------------
     // ---------------------------------------------------
@@ -670,9 +512,6 @@ if (canvas) {
     // to understand what are we doing
     // read this:   https://gafferongames.com/post/fix_your_timestep/
     world.step(1 / 60, deltaTime, 3); // max sub steps is 3 (read the article to understand this)
-
-    // console.log(sphereBody.position); CANNON.Vec3
-    // console.log(sphereBody.position.y); // you will see this value change (makes sense) (value will decrease)
 
     // ---------------------------------------------------
     // ----- UPDATE THREEJS WORLD, BY TAKING COORDINATES FROM PHYSICAL WORLD
@@ -683,12 +522,6 @@ if (canvas) {
       // we allow rotation by doing this
       element.mesh.quaternion.copy(element.body.quaternion);
     }
-
-    // sphereMesh.position.x = sphereBody.position.x;
-    // sphereMesh.position.y = sphereBody.position.y;
-    // sphereMesh.position.z = sphereBody.position.z;
-    // this will work despite we aare deling with THREE.Vector3 and CANNON.Vec3
-    // sphereMesh.position.copy(sphereBody.position);
 
     // same for floor, even floor is static
     floorMesh.position.copy(floorBody.position);
@@ -718,7 +551,7 @@ if (canvas) {
   // ------------------------------------------------------
   // ----------------- enter fulll screen with double click
 
-  window.addEventListener("dblclick", () => {
+  /* window.addEventListener("dblclick", () => {
     console.log("double click");
 
     // handling safari
@@ -749,5 +582,5 @@ if (canvas) {
         document.webkitExitFullscreen();
       }
     }
-  });
+  }); */
 }
