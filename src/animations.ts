@@ -87,7 +87,9 @@ if (canvas) {
 
         mixer = new THREE.AnimationMixer(gltf.scene);
 
-        const action = mixer.clipAction(gltf.animations[0]);
+        let action = mixer.clipAction(gltf.animations[0]);
+        // action = mixer.clipAction(gltf.animations[1]);
+        action = mixer.clipAction(gltf.animations[2]);
 
         action.play();
 

@@ -89,3 +89,12 @@ When we load our model with a loader we can
 
 Best way: **Open a file in a #D software , like blender and clean it (choose only what you want) and export it again**
 
+
+
+# Three.js editor
+
+<https://threejs.org/editor/>
+
+tiny online 3D software
+good way to test models
+only works with models composed of one file
