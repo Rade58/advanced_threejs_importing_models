@@ -9,26 +9,15 @@ import GUI from "lil-gui";
 import gsap from "gsap";
 import CANNON from "cannon";
 
-// - The draco version can be much lighter
-// - compression is applied to the buffer data (typically the geometry)
-// - draco is not exclusive to glTF but they got popular at the same time and
-//    implementation went faster with glTF exports
-// - Google develops the algorithm under the open-source Apache Licence
+// WE CAN ALSO LOAD ANIMATIONS
 
-// WE MUST ADD DRACO LOADER
+// hint for this is that you have `animations` property when you load
+// model   (gltf.animations)
 
-// decoder is also available in WebAssembly
-// and also we can run draco loader in worker
+// it's an array of `THREE.AnimationClip` instances
 
-// we also need to do something unusual
-// copy draco from `node_modules/three/examples/jsm/libs/draco`
-// and past it to static folder
-
-// and we will use web assembly and workers to run drco decoder
-
-// EVEN IF YOU CAN ALWAYS USE IT, DRACO LOADER IS ONLY IDEAL
-// FOR HEAVIER MODELS,, WHERE GEOMETRIES AREN'T LIGHTER
-// BECAUSE DECODER TAKES TIME AND RESOURCES FOR YOUR COMPUTER TO DECODE A COMPRESSED FILE
+// For those instances we will create `THREE.AnimationMixer`, a something like player
+// associated with an object that can contain one or many AnimationClips
 
 /**
  * @description Debug UI - lil-ui
@@ -72,38 +61,37 @@ if (canvas) {
    * Models
    */
 
-  // we instatiate DRACOLoader
-  const dracoLoader = new DRACOLoader();
-
-  // this will use web assembly to run draco loader in worker
-  dracoLoader.setDecoderPath("/draco/");
-
+  // const dracoLoader = new DRACOLoader();
+  // dracoLoader.setDecoderPath("/draco/");
   const gltfLoader = new GLTFLoader();
-  // and we tell gltLoader to use Draco
-  gltfLoader.dracoLoader = dracoLoader;
+  // gltfLoader.dracoLoader = dracoLoader;
 
-  let duck: THREE.Object3D | null = null;
+  let fox: THREE.Object3D | null = null;
+
+  let mixer: THREE.AnimationMixer | null = null;
 
   gltfLoader.load(
-    // this doesn't work without draco loader
-    "/models/Duck/glTF-Draco/Duck.gltf",
-    // if you made up your mind and not use compression
-    // you can still load this one
-    // "/models/Duck/glTF/Duck.gltf"   // and draco loader will not run, it doesn't matter you
-    //                                                             you don't need to remove raco, it will still work
+    "/models/Fox/glTF/Fox.gltf",
     (gltf) => {
-      console.log({ gltf });
+      console.log(gltf);
+      console.log({ animations: gltf.animations });
 
-      duck = gltf.scene.children[0] ? gltf.scene.children[0] : null;
+      fox = gltf.scene.children[0] ? gltf.scene.children[0] : null;
 
-      console.log({ duck });
-      if (duck) {
-        scene.add(duck);
+      scene.add(gltf.scene);
 
-        console.log("duck position");
-        console.log(duck.position);
-        console.log("duck scale");
-        console.log(duck.scale);
+      if (fox) {
+        console.log({ fox });
+
+        fox.scale.setScalar(0.025);
+
+        mixer = new THREE.AnimationMixer(gltf.scene);
+
+        const action = mixer.clipAction(gltf.animations[0]);
+
+        action.play();
+
+        // scene.add(fox);
       }
     },
     (progress) => {
@@ -585,9 +573,13 @@ if (canvas) {
     oldElapsedTime = elapsedTime;
     //
 
-    if (duck) {
-      duck.rotation.y = Math.PI * elapsedTime;
+    if (mixer) {
+      mixer.update(deltaTime);
     }
+
+    /* if (fox) {
+      fox.rotation.y = Math.PI * elapsedTime;
+    } */
 
     // ------ UPDATE PHYSICS WORLD ------
     // ---------------------------------------------------
