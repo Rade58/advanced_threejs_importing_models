@@ -98,3 +98,6 @@ Best way: **Open a file in a #D software , like blender and clean it (choose onl
 tiny online 3D software
 good way to test models
 only works with models composed of one file
+
+
+You can drag and drop models, for example binary file and you can test things of that model
