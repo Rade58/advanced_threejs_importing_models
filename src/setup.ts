@@ -1,5 +1,9 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/Addons.js";
+// WE WILL USE THIS LOADER
+// import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { OrbitControls, GLTFLoader } from "three/examples/jsm/Addons.js";
+//WE CAN NOW USE GLTFLoader
+//
 import GUI from "lil-gui";
 import gsap from "gsap";
 import CANNON from "cannon";
@@ -20,9 +24,9 @@ const parameters = {
   createSphere: () => {
     //
   },
-  createBox: () => {},
+  // createBox: () => {},
   //
-  reset: () => {},
+  // reset: () => {},
 };
 
 const sizes = {
@@ -36,6 +40,19 @@ const canvas: HTMLCanvasElement | null = document.querySelector("canvas.webgl");
 
 if (canvas) {
   const scene = new THREE.Scene();
+
+  // ---------------------------------------------
+  // ---------------------------------------------
+  // MODELS
+  // ---------------------------------------------
+  // ---------------------------------------------
+  /**
+   * Models
+   */
+  const gltfLoader = new GLTFLoader();
+
+  // ---------------------------------------------
+  // ---------------------------------------------
 
   // ---------------------------------------------
   // ---------------------------------------------
