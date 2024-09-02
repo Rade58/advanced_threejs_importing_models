@@ -101,3 +101,5 @@ only works with models composed of one file
 
 
 You can drag and drop models, for example binary file .glb and you can test things of that model
+
+if some material requires lights to be seen, you can add lights
